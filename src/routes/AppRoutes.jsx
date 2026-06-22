@@ -38,7 +38,7 @@ export default function AppRoutes() {
 
         <Route path="/customers" element={<Customers />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path="/view-order" element={<OrderDetails/>} />
+        <Route path="/view-order/:id" element={<OrderDetails />}/>
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/settings" element={<Settings />} />
         
