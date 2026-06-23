@@ -14,71 +14,72 @@ const ProductTable = ({
     onDelete,
 }) => {
 
-const [page, setPage] = useState("table");
+    const [page, setPage] = useState("table");
+    const [selectedSizes, setSelectedSizes] = useState({});
     const navigate = useNavigate();
     const totalProducts =
-    womenWearProducts.length;
+        womenWearProducts.length;
 
-const activeProducts =
-    womenWearProducts.filter(
-        (item) => item.status === "Active"
-    ).length;
+    const activeProducts =
+        womenWearProducts.filter(
+            (item) => item.status === "Active"
+        ).length;
 
-const outOfStockProducts =
-    womenWearProducts.filter(
-        (item) => item.stockLevel <= 0
-    ).length;
+    const outOfStockProducts =
+        womenWearProducts.filter(
+            (item) => item.stockLevel <= 0
+        ).length;
 
-const lowStockProducts =
-    womenWearProducts.filter(
-        (item) =>
-            item.stockLevel > 0 &&
-            item.stockLevel < 5
-    ).length;
+    const lowStockProducts =
+        womenWearProducts.filter(
+            (item) =>
+                item.stockLevel > 0 &&
+                item.stockLevel < 5
+        ).length;
 
 
-  const statsData = [
-    {
-        id: 1,
-        title: "Total Products",
-        value: totalProducts,
-        subtitle: "+12%",
-        subtitleIcon: "trending_up",
-        subtitleColor: "text-secondary",
-        borderClass: "",
-        valueColor: "text-on-surface",
-    },
-    {
-        id: 2,
-        title: "Active",
-        value: activeProducts,
-        subtitle: "Healthy",
-        subtitleIcon: "",
-        subtitleColor: "text-secondary",
-        borderClass: "",
-        valueColor: "text-on-surface",
-    },
-    {
-        id: 3,
-        title: "Low Stock",
-        value: lowStockProducts,
-        subtitle: "Action needed",
-        subtitleIcon: "",
-        subtitleColor: "text-error",
-        borderClass: "border-l-4 border-error",
-        valueColor: "text-error",
-    },
-    {
-        id: 4,
-        title: "Out of Stock",
-        value: outOfStockProducts,
-        subtitle: "Stable",
-        subtitleIcon: "",
-        subtitleColor: "text-on-surface-variant",
-        borderClass: "",
-        valueColor: "text-on-surface",
-    },
-];
+    const statsData = [
+        {
+            id: 1,
+            title: "Total Products",
+            value: totalProducts,
+            subtitle: "+12%",
+            subtitleIcon: "trending_up",
+            subtitleColor: "text-secondary",
+            borderClass: "",
+            valueColor: "text-on-surface",
+        },
+        {
+            id: 2,
+            title: "Active",
+            value: activeProducts,
+            subtitle: "Healthy",
+            subtitleIcon: "",
+            subtitleColor: "text-secondary",
+            borderClass: "",
+            valueColor: "text-on-surface",
+        },
+        {
+            id: 3,
+            title: "Low Stock",
+            value: lowStockProducts,
+            subtitle: "Action needed",
+            subtitleIcon: "",
+            subtitleColor: "text-error",
+            borderClass: "border-l-4 border-error",
+            valueColor: "text-error",
+        },
+        {
+            id: 4,
+            title: "Out of Stock",
+            value: outOfStockProducts,
+            subtitle: "Stable",
+            subtitleIcon: "",
+            subtitleColor: "text-on-surface-variant",
+            borderClass: "",
+            valueColor: "text-on-surface",
+        },
+    ];
 
     const [showModal, setShowModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
@@ -88,8 +89,8 @@ const lowStockProducts =
     const [searchTerm, setSearchTerm] =
         useState("");
 
-    const [selectedCategory, setSelectedCategory] =
-        useState("All Categories");
+    const [selectedGender, setSelectedGender] =
+        useState("All");
 
     const [selectedStatus, setSelectedStatus] =
         useState("All Status");
@@ -117,8 +118,8 @@ const lowStockProducts =
                     .includes(searchTerm.toLowerCase());
 
             const matchesCategory =
-                selectedCategory === "All Categories" ||
-                item.category === selectedCategory;
+                selectedGender === "All" ||
+                item.gender === selectedGender;
 
             const matchesStatus =
                 selectedStatus === "All Status" ||
@@ -305,30 +306,31 @@ const lowStockProducts =
                         type="text"
                         placeholder="Search products..."
                         value={searchTerm}
-                        onChange={(e) =>
-                            setSearchTerm(e.target.value)
-                        }
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setCurrentPage(1);
+                        }}
                         className="bg-transparent outline-none w-full"
                     />
                 </div>
 
-                {/* CATEGORY */}
+                {/* GENDER */}
                 <div className="flex items-center gap-2 border border-slate-200 px-3 py-2 rounded-lg bg-slate-50 min-w-[180px]">
 
                     <select
-                        value={selectedCategory}
+                        value={selectedGender}
                         onChange={(e) => {
-                            setSelectedCategory(e.target.value);
+                            setSelectedGender(e.target.value);
                             setCurrentPage(1);
                         }}
                         className="bg-transparent outline-none w-full"
                     >
-                        <option>All Categories</option>
+                        <option>All</option>
 
                         {[
                             ...new Set(
                                 womenWearProducts.map(
-                                    (item) => item.category
+                                    (item) => item.gender
                                 )
                             ),
                         ].map((category, index) => (
@@ -360,11 +362,9 @@ const lowStockProducts =
                 <div className="flex items-center gap-2 border border-slate-200 px-3 py-2 rounded-lg bg-slate-50 min-w-[180px]">
 
                     <select
-                        value={selectedProductFilter}
+                        value={searchTerm}
                         onChange={(e) => {
-                            setSelectedProductFilter(
-                                e.target.value
-                            );
+                            setSearchTerm(e.target.value);
                             setCurrentPage(1);
                         }}
                         className="bg-transparent outline-none w-full"
@@ -389,8 +389,8 @@ const lowStockProducts =
                 <button
                     onClick={() => {
                         setSearchTerm("");
-                        setSelectedCategory(
-                            "All Categories"
+                        setSelectedGender(
+                            "All"
                         );
                         setSelectedStatus(
                             "All Status"
@@ -412,12 +412,14 @@ const lowStockProducts =
                     <thead className="bg-surface-container-low">
                         <tr>
                             <th className="p-4 text-left">Image</th>
-                            <th className="p-4 text-left">Product</th>
+
                             <th className="p-4 text-left">Category</th>
-                            <th className="p-4 text-left">Brand</th>
-                            <th className="p-4 text-left">Price</th>
+                            <th className="p-4 text-left">Size</th>
                             <th className="p-4 text-left">Stock</th>
-                            <th className="p-4 text-left">Status</th>
+                            {/* <th className="p-4 text-left">Brand</th> */}
+                            <th className="p-4 text-left">Price</th>
+
+                            {/* <th className="p-4 text-left">Status</th> */}
                             <th className="p-4 text-left">Actions</th>
                         </tr>
                     </thead>
@@ -428,39 +430,95 @@ const lowStockProducts =
                                 key={item.id}
                                 className="hover:bg-slate-50/80 transition-colors group"
                             >
-                                <td className="p-4">
-                                    <img
-                                        src={item.images?.[0]}
-                                        alt={item.product}
-                                        className="w-16 h-16 rounded-lg object-cover"
-                                    />
-                                </td>
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-4">
+                                        <img
+                                            src={item.images?.[0]}
+                                            alt={item.product}
+                                            className="w-16 h-16 rounded-lg object-cover"
+                                        />
+                                        <div>
+                                            <h3 className="font-semibold">
+                                                {item.product}
+                                            </h3>
 
-                                <td className="p-4">
-                                    <div>
-                                        <h3 className="font-semibold">
-                                            {item.product}
-                                        </h3>
-
-                                        <p className="text-sm text-on-surface-variant">
-                                            {item.subProduct}
-                                        </p>
+                                            <p className="text-sm text-on-surface-variant">
+                                                {item.subProduct}
+                                            </p>
+                                        </div>
                                     </div>
                                 </td>
 
-                                <td className="p-4">{item.category}</td>
 
-                                <td className="p-4">{item.brand}</td>
+
+                                <td className="p-4">
+                                    <p>{item.category}</p>
+                                    <p>{item.subCategory}</p>
+                                   
+                                </td>
+
+                                <td>
+                                    <div className="flex gap-1 flex-wrap">
+                                        {item.sizes.map((s, index) => {
+                                            const activeSize =
+                                                selectedSizes[item.id] || item.sizes[0].size;
+
+                                            return (
+                                                <button
+                                                    key={s.size}
+                                                    type="button"
+                                                    className={`btn btn-sm cursor-pointer ${activeSize === s.size
+                                                        ? "w-8 h-8 rounded border border-gray-600 flex items-center justify-center text-[10px] font-bold text-primary"
+                                                        : "w-8 h-8 rounded border border-gray-100 flex items-center justify-center text-[10px] font-medium text-slate-500"
+                                                        }`}
+                                                    onClick={() =>
+                                                        setSelectedSizes((prev) => ({
+                                                            ...prev,
+                                                            [item.id]: s.size,
+                                                        }))
+                                                    }
+                                                >
+                                                    {s.size}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </td>
+                                <td>
+                                    {(() => {
+                                        const stockText =
+                                            item.sizes.find(
+                                                (s) =>
+                                                    s.size ===
+                                                    (selectedSizes[item.id] || item.sizes[0].size)
+                                            )?.stock || "";
+
+                                        const isLowStock = stockText.includes("Low");
+
+                                        return (
+                                            <span
+                                                className={`badge px-2 py-1 ${isLowStock
+                                                    ? "bg-red-100 text-red-700 text-danger"
+                                                    : "bg-green-100 text-green-700 text-success"
+                                                    }`}
+                                            >
+                                                {stockText}
+                                            </span>
+                                        );
+                                    })()}
+                                </td>
+
+                                {/* <td className="p-4">{item.brand}</td> */}
 
                                 <td className="p-4">
                                     ₹{item.price}
                                 </td>
 
-                                <td className="p-4">
+                                {/* <td className="p-4">
                                     {item.stockLevel}
-                                </td>
+                                </td> */}
 
-                                <td className="p-4">
+                                {/* <td className="p-4">
                                     <span
                                         className={`px-3 py-1 rounded-full text-sm ${item.status === "Active"
                                             ? "bg-green-100 text-green-700"
@@ -469,7 +527,7 @@ const lowStockProducts =
                                     >
                                         {item.status}
                                     </span>
-                                </td>
+                                </td> */}
 
                                 <td className="p-4">
                                     <div className="flex items-center gap-4">
