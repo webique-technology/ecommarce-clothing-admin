@@ -16,15 +16,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 1499,
@@ -44,15 +44,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 0,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 2999,
@@ -72,15 +72,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 4,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 8999,
@@ -100,15 +100,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 5,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 999,
@@ -128,15 +128,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 1999,
@@ -156,15 +156,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 3,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 1,
         },
       ],
       price: 4999,
@@ -184,15 +184,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 1,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 3,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 899,
@@ -212,15 +212,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 6,
         },
       ],
       price: 699,
@@ -240,15 +240,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 7,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 7,
         },
       ],
       price: 2499,
@@ -268,15 +268,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 2,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 6,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 8,
         },
       ],
       price: 1599,
@@ -296,15 +296,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 0,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 0,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 0,
         },
       ],
       price: 799,
@@ -324,15 +324,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 3499,
@@ -352,15 +352,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 20,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 10,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 18,
         },
       ],
       price: 4599,
@@ -380,15 +380,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 2,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 499,
@@ -408,15 +408,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 2,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 5999,
@@ -436,15 +436,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 3,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 2,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 1299,
@@ -464,15 +464,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 10,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 5,
         },
       ],
       price: 899,
@@ -492,15 +492,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 15,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 4,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 12,
         },
       ],
       price: 2799,
@@ -520,15 +520,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 5,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 40,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 2,
         },
       ],
       price: 3999,
@@ -548,15 +548,15 @@ const Products = () => {
       sizes: [
         {
           size: "2T",
-          stock: "5 in stock",
+          stock: 0,
         },
         {
           size: "4T",
-          stock: "4 in stock",
+          stock: 0,
         },
         {
           size: "6T",
-          stock: "2 Low in stock",
+          stock: 0,
         },
       ],
       price: 1899,

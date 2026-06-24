@@ -65,8 +65,16 @@
   .border-red {
     color: rgb(var(--primary-color))
   }
+.p-gutter {
+    padding: 24px;
+}
 
-
+.text-label-caps {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
 
   .bg-primary-fade {
     background-color: rgb(var(--fade-one));
@@ -264,6 +272,15 @@
     border-color: rgb(186 26 26 / var(--tw-border-opacity, 1));
 }
 
+.border-available {
+    --tw-border-opacity: 1;
+    border-color: rgb(60 159 0 / var(--tw-border-opacity, 1));
+}
+
+.border-low {
+    --tw-border-opacity: 1;
+    border-color: rgb(255 157 45 / var(--tw-border-opacity, 1));
+}
 .space-y-lg > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
     margin-top: calc(24px * calc(1 - var(--tw-space-y-reverse)));
@@ -1336,6 +1353,59 @@
     @apply border-0;
     background-color: rgb(var(--bg-surface-container-low));
   }
+
+
+  
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.focus\:ring-primary:focus {
+    --tw-ring-opacity: 1;
+    --tw-ring-color: rgb(9 20 38 / var(--tw-ring-opacity, 1));
+}
+.outline-none {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+}
+.text-title-sm {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 600;
+}
+[type='checkbox']:checked, [type='radio']:checked {
+    border-color: transparent;
+    background-color: currentColor;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.text-body-base {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+.p-3 {
+    padding: 0.75rem;
+}
+
+.bg-white {
+    --tw-bg-opacity: 1;
+    background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+}
+
+.border-slate-200 {
+    --tw-border-opacity: 1;
+    border-color: rgb(226 232 240 / var(--tw-border-opacity, 1));
+}
+
+.border {
+    border-width: 1px;
+}
+
 
   /* .block-btn-primary-one{
   @apply px-8 py-2 bg-primary text-white font-semibold rounded-full shadow-lg 

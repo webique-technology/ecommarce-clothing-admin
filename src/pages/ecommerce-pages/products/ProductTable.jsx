@@ -17,6 +17,15 @@ const ProductTable = ({
     const [page, setPage] = useState("table");
     const [selectedSizes, setSelectedSizes] = useState({});
     const navigate = useNavigate();
+    const totalStock = womenWearProducts.reduce((total, item) => {
+    return (
+        total +
+        item.sizes.reduce(
+            (sum, size) => sum + size.stock,
+            0
+        )
+    );
+}, 0);
     const totalProducts =
         womenWearProducts.length;
 
@@ -25,61 +34,77 @@ const ProductTable = ({
             (item) => item.status === "Active"
         ).length;
 
-    const outOfStockProducts =
-        womenWearProducts.filter(
-            (item) => item.stockLevel <= 0
-        ).length;
+  const availableProducts = womenWearProducts.filter((item) => {
+    const totalStock = item.sizes.reduce(
+        (sum, size) => sum + size.stock,
+        0
+    );
 
-    const lowStockProducts =
-        womenWearProducts.filter(
-            (item) =>
-                item.stockLevel > 0 &&
-                item.stockLevel < 5
-        ).length;
+    return totalStock > 20;
+}).length;
+
+const lowStockProducts = womenWearProducts.filter((item) => {
+    const totalStock = item.sizes.reduce(
+        (sum, size) => sum + size.stock,
+        0
+    );
+
+    return totalStock > 0 && totalStock < 10;
+}).length;
+
+const outOfStockProducts = womenWearProducts.filter((item) => {
+    const totalStock = item.sizes.reduce(
+        (sum, size) => sum + size.stock,
+        0
+    );
+
+    return totalStock === 0;
+}).length;
 
 
-    const statsData = [
-        {
-            id: 1,
-            title: "Total Products",
-            value: totalProducts,
-            subtitle: "+12%",
-            subtitleIcon: "trending_up",
-            subtitleColor: "text-secondary",
-            borderClass: "",
-            valueColor: "text-on-surface",
-        },
-        {
-            id: 2,
-            title: "Active",
-            value: activeProducts,
-            subtitle: "Healthy",
-            subtitleIcon: "",
-            subtitleColor: "text-secondary",
-            borderClass: "",
-            valueColor: "text-on-surface",
-        },
-        {
-            id: 3,
-            title: "Low Stock",
-            value: lowStockProducts,
-            subtitle: "Action needed",
-            subtitleIcon: "",
-            subtitleColor: "text-error",
-            borderClass: "border-l-4 border-error",
-            valueColor: "text-error",
-        },
-        {
-            id: 4,
-            title: "Out of Stock",
-            value: outOfStockProducts,
-            subtitle: "Stable",
-            subtitleIcon: "",
-            subtitleColor: "text-on-surface-variant",
-            borderClass: "",
-            valueColor: "text-on-surface",
-        },
-    ];
+
+   const statsData = [
+    {
+        id: 1,
+        title: "Total Products",
+        value: totalProducts,
+        subtitle: `${totalStock} Units`,
+        subtitleIcon: "",
+        subtitleColor: "text-secondary",
+        borderClass: "",
+        valueColor: "text-on-surface",
+    },
+    {
+        id: 2,
+        title: "Available",
+        value: availableProducts,
+        subtitle: "Stock > 20",
+        subtitleIcon: "",
+        subtitleColor: "text-success",
+        borderClass: "border-l-4 border-available",
+        valueColor: "text-success",
+    },
+    {
+        id: 3,
+        title: "Low Stock",
+        value: lowStockProducts,
+        subtitle: "Stock < 10",
+        subtitleIcon: "",
+        subtitleColor: "text-warning",
+        borderClass: "border-l-4 border-low",
+        valueColor: "text-warning",
+    },
+    {
+        id: 4,
+        title: "Out of Stock",
+        value: outOfStockProducts,
+        subtitle: "Stock = 0",
+        subtitleIcon: "",
+        subtitleColor: "text-error",
+        borderClass: "border-l-4 border-error",
+        valueColor: "text-error",
+    },
+];
 
     const [showModal, setShowModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
@@ -90,7 +115,7 @@ const ProductTable = ({
         useState("");
 
     const [selectedGender, setSelectedGender] =
-        useState("All");
+        useState("All Genders");
 
     const [selectedStatus, setSelectedStatus] =
         useState("All Status");
@@ -105,20 +130,20 @@ const ProductTable = ({
         womenWearProducts.filter((item) => {
 
             const matchesSearch =
-                item.product
+                (item.product || "")
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
 
-                item.subProduct
+                (item.subProduct || "")
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase()) ||
 
-                item.brand
+                (item.brand || "")
                     .toLowerCase()
                     .includes(searchTerm.toLowerCase());
 
             const matchesCategory =
-                selectedGender === "All" ||
+                selectedGender === "All Genders" ||
                 item.gender === selectedGender;
 
             const matchesStatus =
@@ -231,6 +256,8 @@ const ProductTable = ({
         setSelectedId(null);
     };
 
+    
+
     return (
         <div className="p-xl flex-1 flex flex-col gap-lg">
             {/* header */}
@@ -325,7 +352,7 @@ const ProductTable = ({
                         }}
                         className="bg-transparent outline-none w-full"
                     >
-                        <option>All</option>
+                        <option>All Genders</option>
 
                         {[
                             ...new Set(
@@ -342,7 +369,7 @@ const ProductTable = ({
                 </div>
 
                 {/* STATUS */}
-                <div className="flex items-center gap-2 border border-slate-200 px-3 py-2 rounded-lg bg-slate-50 min-w-[160px]">
+                {/* <div className="flex items-center gap-2 border border-slate-200 px-3 py-2 rounded-lg bg-slate-50 min-w-[160px]">
 
                     <select
                         value={selectedStatus}
@@ -356,18 +383,17 @@ const ProductTable = ({
                         <option>Active</option>
                         <option>Inactive</option>
                     </select>
-                </div>
+                </div> */}
 
                 {/* PRODUCT */}
                 <div className="flex items-center gap-2 border border-slate-200 px-3 py-2 rounded-lg bg-slate-50 min-w-[180px]">
 
                     <select
-                        value={searchTerm}
+                        value={selectedProductFilter}
                         onChange={(e) => {
-                            setSearchTerm(e.target.value);
+                            setSelectedProductFilter(e.target.value);
                             setCurrentPage(1);
                         }}
-                        className="bg-transparent outline-none w-full"
                     >
                         <option>All Products</option>
 
@@ -454,7 +480,7 @@ const ProductTable = ({
                                 <td className="p-4">
                                     <p>{item.category}</p>
                                     <p>{item.subCategory}</p>
-                                   
+
                                 </td>
 
                                 <td>
@@ -486,23 +512,32 @@ const ProductTable = ({
                                 </td>
                                 <td>
                                     {(() => {
-                                        const stockText =
+                                        const stock =
                                             item.sizes.find(
                                                 (s) =>
                                                     s.size ===
-                                                    (selectedSizes[item.id] || item.sizes[0].size)
-                                            )?.stock || "";
+                                                    (selectedSizes[item.id] ||
+                                                        item.sizes[0].size)
+                                            )?.stock || 0;
 
-                                        const isLowStock = stockText.includes("Low");
+                                        const outOfStock = stock === 0;
+                                        const isLowStock = stock > 0 && stock < 5;
+                                        const availableStock = stock >= 5;
 
                                         return (
                                             <span
-                                                className={`badge px-2 py-1 ${isLowStock
-                                                    ? "bg-red-100 text-red-700 text-danger"
-                                                    : "bg-green-100 text-green-700 text-success"
+                                                className={`badge px-2 py-1 ${outOfStock
+                                                        ? "bg-gray-100 text-gray-700"
+                                                        : isLowStock
+                                                            ? "bg-red-100 text-red-700"
+                                                            : "bg-green-100 text-green-700"
                                                     }`}
                                             >
-                                                {stockText}
+                                                {outOfStock
+                                                    ? `Out of Stock (${stock})`
+                                                    : isLowStock
+                                                        ? `Low Stock (${stock})`
+                                                        : `Available (${stock})`}
                                             </span>
                                         );
                                     })()}
