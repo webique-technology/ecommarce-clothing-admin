@@ -13,6 +13,9 @@ const Products = () => {
       subProduct: "Floral Kurti",
       category: "Ethnic Wear",
       subCategory: "Women's Kurtis",
+      ageRange: {
+        value: "5-7y"
+      },
       sizes: [
         {
           size: "2T",
@@ -27,7 +30,9 @@ const Products = () => {
           stock: 2,
         },
       ],
+      taxRate: "Standard VAT (20%)",
       price: 1499,
+      discountPrice: 1150,
       stock: 12,
       gender: "boys",
       // status: "Active",
@@ -41,6 +46,9 @@ const Products = () => {
       subProduct: "Silk Saree",
       category: "Traditional",
       subCategory: "Silk Sarees",
+      ageRange: {
+        value: "2-4y"
+      },
       sizes: [
         {
           size: "2T",
@@ -55,7 +63,11 @@ const Products = () => {
           stock: 2,
         },
       ],
+
+      taxRate: "Reduced Rate (5%)",
+
       price: 2999,
+      discountPrice: 1250,
       stock: 5,
       gender: "girls",
       // status: "Inactive",
@@ -69,6 +81,9 @@ const Products = () => {
       subProduct: "Wedding Lehenga",
       category: "Bridal Wear",
       subCategory: "Wedding Collection",
+      ageRange: {
+        value: "8-12y"
+      },
       sizes: [
         {
           size: "2T",
@@ -83,9 +98,12 @@ const Products = () => {
           stock: 2,
         },
       ],
+
+      taxRate: "Zero Rated (0%)",
+
       price: 8999,
       stock: 3,
-      gender: "boys",
+      gender: "Unisex",
       // status: "Active",
       images: ["https://images.unsplash.com/photo-1597983073493-88cd35cf93b0"],
       description: "Heavy bridal lehenga",
@@ -97,6 +115,9 @@ const Products = () => {
       subProduct: "Casual Crop Top",
       category: "Western Wear",
       subCategory: "Crop Tops",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -111,7 +132,10 @@ const Products = () => {
           stock: 2,
         },
       ],
+
+      taxRate: "Exempt",
       price: 999,
+      discountPrice: 1350,
       stock: 18,
       gender: "girls",
       // status: "Active",
@@ -125,6 +149,9 @@ const Products = () => {
       subProduct: "Skinny Fit Jeans",
       category: "Denim",
       subCategory: "Skinny Fit",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -139,6 +166,8 @@ const Products = () => {
           stock: 2,
         },
       ],
+
+      taxRate: "Exempt",
       price: 1999,
       stock: 10,
       gender: "boys",
@@ -153,6 +182,9 @@ const Products = () => {
       subProduct: "Party Wear Gown",
       category: "Party Wear",
       subCategory: "Evening Gowns",
+      ageRange: {
+        value: "8-12y"
+      },
       sizes: [
         {
           size: "2T",
@@ -167,7 +199,11 @@ const Products = () => {
           stock: 1,
         },
       ],
+
+      taxRate: "Reduced Rate (5%)",
+
       price: 4999,
+      discountPrice: 1450,
       stock: 6,
       gender: "girls",
       // status: "Inactive",
@@ -181,6 +217,9 @@ const Products = () => {
       subProduct: "Printed Palazzo",
       category: "Bottom Wear",
       subCategory: "Palazzos",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -209,6 +248,9 @@ const Products = () => {
       subProduct: "Banarasi Dupatta",
       category: "Accessories",
       subCategory: "Dupattas",
+      ageRange: {
+        value: "5-7y"
+      },
       sizes: [
         {
           size: "2T",
@@ -223,6 +265,7 @@ const Products = () => {
           stock: 6,
         },
       ],
+      taxRate: "Standard VAT (20%)",
       price: 699,
       stock: 20,
       gender: "girls",
@@ -237,6 +280,9 @@ const Products = () => {
       subProduct: "Cotton Suit Set",
       category: "Ethnic Wear",
       subCategory: "Suit Sets",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -251,6 +297,9 @@ const Products = () => {
           stock: 7,
         },
       ],
+
+      taxRate: "Zero Rated (0%)",
+
       price: 2499,
       stock: 8,
       gender: "boys",
@@ -265,6 +314,9 @@ const Products = () => {
       subProduct: "Pleated Skirt",
       category: "Western Wear",
       subCategory: "Skirts",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -279,6 +331,8 @@ const Products = () => {
           stock: 8,
         },
       ],
+      taxRate: "Standard VAT (20%)",
+
       price: 1599,
       stock: 9,
       gender: "girls",
@@ -293,6 +347,9 @@ const Products = () => {
       subProduct: "Graphic Tee",
       category: "Casual Wear",
       subCategory: "Graphic Tees",
+      ageRange: {
+        value: "5-7y"
+      },
       sizes: [
         {
           size: "2T",
@@ -307,6 +364,9 @@ const Products = () => {
           stock: 0,
         },
       ],
+
+      taxRate: "Zero Rated (0%)",
+
       price: 799,
       stock: 25,
       // status: "Active",
@@ -321,6 +381,9 @@ const Products = () => {
       subProduct: "Denim Jacket",
       category: "Outerwear",
       subCategory: "Denim Jackets",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -335,6 +398,8 @@ const Products = () => {
           stock: 2,
         },
       ],
+      taxRate:"Standard VAT (20%)",
+
       price: 3499,
       stock: 7,
       gender: "girls",
@@ -349,6 +414,9 @@ const Products = () => {
       subProduct: "Designer Anarkali",
       category: "Ethnic Wear",
       subCategory: "Anarkali Suits",
+      ageRange: {
+        value: "2-4y"
+      },
       sizes: [
         {
           size: "2T",
@@ -363,6 +431,9 @@ const Products = () => {
           stock: 18,
         },
       ],
+
+taxRate:"Zero Rated (0%)",
+
       price: 4599,
       stock: 4,
       gender: "boys",
@@ -377,6 +448,9 @@ const Products = () => {
       subProduct: "Black Leggings",
       category: "Bottom Wear",
       subCategory: "Leggings",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -391,6 +465,8 @@ const Products = () => {
           stock: 2,
         },
       ],
+      taxRate:"Standard VAT (20%)",
+
       price: 499,
       stock: 30,
       gender: "girls",
@@ -405,6 +481,9 @@ const Products = () => {
       subProduct: "Formal Blazer",
       category: "Formal Wear",
       subCategory: "Office Wear",
+      ageRange: {
+        value: "8-12y"
+      },
       sizes: [
         {
           size: "2T",
@@ -419,6 +498,7 @@ const Products = () => {
           stock: 2,
         },
       ],
+       taxRate:"Standard VAT (10%)",
       price: 5999,
       stock: 5,
       gender: "boys",
@@ -433,6 +513,9 @@ const Products = () => {
       subProduct: "Printed Nightwear",
       category: "Sleepwear",
       subCategory: "Night Suits",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -447,6 +530,7 @@ const Products = () => {
           stock: 2,
         },
       ],
+       taxRate:"Standard VAT (40%)",
       price: 1299,
       stock: 14,
       gender: "girls",
@@ -461,6 +545,9 @@ const Products = () => {
       subProduct: "Long Shrug",
       category: "Layering",
       subCategory: "Shrugs",
+      ageRange: {
+        value: "5-7y"
+      },
       sizes: [
         {
           size: "2T",
@@ -475,6 +562,7 @@ const Products = () => {
           stock: 5,
         },
       ],
+       taxRate:"Standard VAT (30%)",
       price: 899,
       stock: 11,
       gender: "boys",
@@ -517,6 +605,9 @@ const Products = () => {
       subProduct: "Festive Sharara Set",
       category: "Festive Wear",
       subCategory: "Sharara Sets",
+      ageRange: {
+        value: "0-24m"
+      },
       sizes: [
         {
           size: "2T",
@@ -531,6 +622,7 @@ const Products = () => {
           stock: 2,
         },
       ],
+       taxRate:"Standard VAT (15%)",
       price: 3999,
       stock: 6,
       gender: "boys",
@@ -545,6 +637,9 @@ const Products = () => {
       subProduct: "Beach Kaftan",
       category: "Resort Wear",
       subCategory: "Kaftans",
+      ageRange: {
+        value: "5-7y"
+      },
       sizes: [
         {
           size: "2T",
@@ -559,6 +654,7 @@ const Products = () => {
           stock: 0,
         },
       ],
+       taxRate:"Standard VAT (5%)",
       price: 1899,
       stock: 16,
       gender: "girls",

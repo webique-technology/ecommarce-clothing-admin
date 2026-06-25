@@ -154,10 +154,13 @@
 .gap-lg {
     gap: 24px;
 }
-
+.text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
 .text-xs {
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
 }
 .p-lg {
     padding: 24px;
@@ -1382,6 +1385,18 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+.text-label-caps {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+.text-headline-md {
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+}
 .text-body-base {
     font-size: 16px;
     line-height: 24px;
@@ -1406,6 +1421,9 @@
     border-width: 1px;
 }
 
+.p-lg {
+    padding: 24px;
+}
 
   /* .block-btn-primary-one{
   @apply px-8 py-2 bg-primary text-white font-semibold rounded-full shadow-lg 

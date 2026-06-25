@@ -36,11 +36,11 @@ export const SectionLabel = ({
     );
 };
 
-export const InputFields = ({ label, className, labelClass, inputClass, type, error, errorClass, placeholder, value, onChange }) => {
+export const InputFields = ({ label, className, labelClass, inputClass, type, error, errorClass, placeholder, value, onChange, name }) => {
     return (
         <div className={className}>
             <label className={labelClass}>{label}</label>
-            <input type={type} className={inputClass} placeholder={placeholder} value={value} onChange={onChange} />
+            <input type={type} className={inputClass} placeholder={placeholder} value={value} onChange={onChange} name={name} />
             {error && (
                 <span className={`error ${errorClass}`}>{error}</span>
             )}
@@ -205,6 +205,45 @@ export const CheckboxField = ({
                     checked={checked ?? false}
                     onChange={onChange}
                     className={checkboxClass}
+                />
+
+                <span>{label}</span>
+            </label>
+
+            {error && (
+                <span className={`error ${errorClass}`}>
+                    {error}
+                </span>
+            )}
+        </div>
+    );
+};
+
+
+export const RadioField = ({
+    label,
+    name,
+    value,
+    checked,
+    onChange,
+    className = "",
+    labelClass = "",
+    radioClass = "",
+    error,
+    errorClass = "",
+}) => {
+    return (
+        <div className={className}>
+            <label
+                className={labelClass}
+            >
+                <input
+                    type="radio"
+                    name={name}
+                    value={value}
+                    checked={checked ?? false}
+                    onChange={onChange}
+                    className={radioClass}
                 />
 
                 <span>{label}</span>

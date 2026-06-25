@@ -84,8 +84,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         {/* Hide text when closed */}
         {isOpen && (
           <div class="mb-8 px-4">
-            <h1 class="text-lg font-black tracking-tight text-slate-900 dark:text-white">AdminPanel</h1>
-            <p class="text-xs text-on-primary-container font-medium">Ecommerce Management</p>
+            <h1 className="text-lg font-black tracking-tight text-slate-900 dark:text-white">AdminPanel</h1>
+            <p className="text-xs text-on-primary-container font-medium">Ecommerce Management</p>
           </div>
         )}
       </div>
@@ -209,7 +209,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
       <div className="mt-auto p-4 bg-surface-container-low rounded-xl border border-outline-variant/30">
         <div className="flex items-center gap-3">
-          <img alt="Administrator Profile" class="w-8 h-8 rounded-full bg-primary-fixed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsOp5Ytoj-e6fZDIB_JAPcvf8zVL98Z080oSWWkGbiyWMqCJFb0h7bxIJAHvRPL1SRBOmOy0_Ji6fCHwFB2MPWkgkzEX_WE3Fg8K6w6x9z4-9lygswcxbDAlrIzqcyGJ-wLKcZfnP553aaOSlOTnEXZ5GZWKX8e7oOtZHIOhsYemu1VwToDkE_IXdyJ7ci1waNVlSkkgNWXUUix9WM3yEteDMruOy_a-9-fQUgzECtYcV8CWqoJDuxk1Usi7aqmr1KWXNPOgTL_5R8"/>
+          <img alt="Administrator Profile" className="w-8 h-8 rounded-full bg-primary-fixed" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsOp5Ytoj-e6fZDIB_JAPcvf8zVL98Z080oSWWkGbiyWMqCJFb0h7bxIJAHvRPL1SRBOmOy0_Ji6fCHwFB2MPWkgkzEX_WE3Fg8K6w6x9z4-9lygswcxbDAlrIzqcyGJ-wLKcZfnP553aaOSlOTnEXZ5GZWKX8e7oOtZHIOhsYemu1VwToDkE_IXdyJ7ci1waNVlSkkgNWXUUix9WM3yEteDMruOy_a-9-fQUgzECtYcV8CWqoJDuxk1Usi7aqmr1KWXNPOgTL_5R8"/>
             <div className="overflow-hidden">
               <p className="text-label-md font-label-md text-on-surface truncate">Admin User</p>
               <p className="text-xs text-on-surface-variant truncate">Store Manager</p>

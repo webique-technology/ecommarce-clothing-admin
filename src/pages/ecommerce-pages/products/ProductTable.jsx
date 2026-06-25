@@ -18,14 +18,14 @@ const ProductTable = ({
     const [selectedSizes, setSelectedSizes] = useState({});
     const navigate = useNavigate();
     const totalStock = womenWearProducts.reduce((total, item) => {
-    return (
-        total +
-        item.sizes.reduce(
-            (sum, size) => sum + size.stock,
-            0
-        )
-    );
-}, 0);
+        return (
+            total +
+            (item.sizes || []).reduce(
+                (sum, size) => sum + size.stock,
+                0
+            )
+        );
+    }, 0);
     const totalProducts =
         womenWearProducts.length;
 
@@ -34,77 +34,81 @@ const ProductTable = ({
             (item) => item.status === "Active"
         ).length;
 
-  const availableProducts = womenWearProducts.filter((item) => {
-    const totalStock = item.sizes.reduce(
-        (sum, size) => sum + size.stock,
-        0
-    );
+    const availableProducts = womenWearProducts.filter((item) => {
+        const totalStock = item.sizes.reduce(
+            (sum, size) => sum + size.stock,
+            0
+        );
 
-    return totalStock > 20;
-}).length;
+        return totalStock > 20;
+    }).length;
+    const defaultSizes = [
+        { size: "2T", stock: 0 },
+        { size: "4T", stock: 0 },
+        { size: "6T", stock: 0 },
+    ];
+    const lowStockProducts = womenWearProducts.filter((item) => {
+        const totalStock = item.sizes.reduce(
+            (sum, size) => sum + size.stock,
+            0
+        );
 
-const lowStockProducts = womenWearProducts.filter((item) => {
-    const totalStock = item.sizes.reduce(
-        (sum, size) => sum + size.stock,
-        0
-    );
+        return totalStock > 0 && totalStock < 10;
+    }).length;
 
-    return totalStock > 0 && totalStock < 10;
-}).length;
+    const outOfStockProducts = womenWearProducts.filter((item) => {
+        const totalStock = item.sizes.reduce(
+            (sum, size) => sum + size.stock,
+            0
+        );
 
-const outOfStockProducts = womenWearProducts.filter((item) => {
-    const totalStock = item.sizes.reduce(
-        (sum, size) => sum + size.stock,
-        0
-    );
-
-    return totalStock === 0;
-}).length;
+        return totalStock === 0;
+    }).length;
 
 
 
-   const statsData = [
-    {
-        id: 1,
-        title: "Total Products",
-        value: totalProducts,
-        subtitle: `${totalStock} Units`,
-        subtitleIcon: "",
-        subtitleColor: "text-secondary",
-        borderClass: "",
-        valueColor: "text-on-surface",
-    },
-    {
-        id: 2,
-        title: "Available",
-        value: availableProducts,
-        subtitle: "Stock > 20",
-        subtitleIcon: "",
-        subtitleColor: "text-success",
-        borderClass: "border-l-4 border-available",
-        valueColor: "text-success",
-    },
-    {
-        id: 3,
-        title: "Low Stock",
-        value: lowStockProducts,
-        subtitle: "Stock < 10",
-        subtitleIcon: "",
-        subtitleColor: "text-warning",
-        borderClass: "border-l-4 border-low",
-        valueColor: "text-warning",
-    },
-    {
-        id: 4,
-        title: "Out of Stock",
-        value: outOfStockProducts,
-        subtitle: "Stock = 0",
-        subtitleIcon: "",
-        subtitleColor: "text-error",
-        borderClass: "border-l-4 border-error",
-        valueColor: "text-error",
-    },
-];
+    const statsData = [
+        {
+            id: 1,
+            title: "Total Products",
+            value: totalProducts,
+            subtitle: `${totalStock} Units`,
+            subtitleIcon: "",
+            subtitleColor: "text-secondary",
+            borderClass: "",
+            valueColor: "text-on-surface",
+        },
+        {
+            id: 2,
+            title: "Available",
+            value: availableProducts,
+            subtitle: "Stock > 20",
+            subtitleIcon: "",
+            subtitleColor: "text-success",
+            borderClass: "border-l-4 border-available",
+            valueColor: "text-success",
+        },
+        {
+            id: 3,
+            title: "Low Stock",
+            value: lowStockProducts,
+            subtitle: "Stock < 10",
+            subtitleIcon: "",
+            subtitleColor: "text-warning",
+            borderClass: "border-l-4 border-low",
+            valueColor: "text-warning",
+        },
+        {
+            id: 4,
+            title: "Out of Stock",
+            value: outOfStockProducts,
+            subtitle: "Stock = 0",
+            subtitleIcon: "",
+            subtitleColor: "text-error",
+            borderClass: "border-l-4 border-error",
+            valueColor: "text-error",
+        },
+    ];
 
     const [showModal, setShowModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
@@ -256,7 +260,7 @@ const outOfStockProducts = womenWearProducts.filter((item) => {
         setSelectedId(null);
     };
 
-    
+
 
     return (
         <div className="p-xl flex-1 flex flex-col gap-lg">
@@ -485,9 +489,18 @@ const outOfStockProducts = womenWearProducts.filter((item) => {
 
                                 <td>
                                     <div className="flex gap-1 flex-wrap">
-                                        {item.sizes.map((s, index) => {
+                                        {(item.sizes?.length
+                                            ? item.sizes
+                                            : defaultSizes
+                                        ).map((s) => {
+                                            const sizes =
+                                                item.sizes?.length
+                                                    ? item.sizes
+                                                    : defaultSizes;
+
                                             const activeSize =
-                                                selectedSizes[item.id] || item.sizes[0].size;
+                                                selectedSizes[item.id] ||
+                                                sizes[0].size;
 
                                             return (
                                                 <button
@@ -527,10 +540,10 @@ const outOfStockProducts = womenWearProducts.filter((item) => {
                                         return (
                                             <span
                                                 className={`badge px-2 py-1 ${outOfStock
-                                                        ? "bg-gray-100 text-gray-700"
-                                                        : isLowStock
-                                                            ? "bg-red-100 text-red-700"
-                                                            : "bg-green-100 text-green-700"
+                                                    ? "bg-gray-100 text-gray-700"
+                                                    : isLowStock
+                                                        ? "bg-red-100 text-red-700"
+                                                        : "bg-green-100 text-green-700"
                                                     }`}
                                             >
                                                 {outOfStock

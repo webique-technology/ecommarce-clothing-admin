@@ -7,7 +7,7 @@ import {
   FiTrash2,
   FiX
 } from "react-icons/fi";
-import { CheckboxField, DisabledField, FormHeading, InputFields, SectionLabel, SelectField, TextareaFields } from "../../../components/ui/FormFields";
+import { CheckboxField, DisabledField, FormHeading, InputFields, RadioField, SectionLabel, SelectField, TextareaFields } from "../../../components/ui/FormFields";
 const AddProduct = ({
   onSave,
   womenWearProducts,
@@ -15,37 +15,74 @@ const AddProduct = ({
 }) => {
   const [step, setStep] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [formDataNew, setFormDataNew] = useState({
-    age0to24m: false,
-    age2to4y: false,
-    age5to7y: false,
-    age8to12y: false,
-  });
+
+
+  const ageGroups = ["0-24m", "2-4y", "5-7y", "8-12y"];
+
   const [formData, setFormData] = useState({
     id: null,
     product: "",
     subProduct: "",
     category: "",
+    subCategory: "",
+    gender: "",
     price: "",
     stockLevel: "",
     status: "Active",
     images: [],
-    status: "Active",
     brand: "",
+    discountPrice: "",
+    ageGroup: "",
+    taxRate: "",
+
+    sizes: [], // add this
   });
+
+  const taxOptions = [
+    "Reduced VAT (5%)",
+    "Standard VAT (15%)",
+    "Zero VAT (0%)",
+  ];
+
+  const subCategoryMap = {
+    "Ethnic Wear": [
+      "Women's Kurtis",
+      "Suit Sets",
+      "Anarkali Suits",
+    ],
+    "Western Wear": [
+      "Crop Tops",
+      "Skirts",
+      "Co-ord Sets",
+    ],
+    "Bridal Wear": [
+      "Wedding Collection",
+    ],
+    "Bottom Wear": [
+      "Palazzos",
+      "Leggings",
+    ],
+    "Accessories": [
+      "Dupattas",
+    ],
+  };
+
+  const genderOptions = [
+    { label: "Boys", value: "boys" },
+    { label: "Girls", value: "girls" },
+    { label: "Unisex", value: "Unisex" },
+  ];
+
+  const handleEdit = (product) => {
+    setFormData(product);
+    setShowModal(true);
+  };
   const uploadRef = useRef(null);
   const { id } = useParams();
-  const editProduct =
-    womenWearProducts.find(
-      (item) => item.id === Number(id)
-    );
+  const editProduct = womenWearProducts.find(
+    (item) => item.id === Number(id)
+  );
   // bind edit data to inputs
-  React.useEffect(() => {
-    if (editProduct) {
-      setFormData(editProduct);
-    }
-  }, [editProduct]);
-
   useEffect(() => {
     if (editProduct) {
       setFormData(editProduct);
@@ -57,6 +94,8 @@ const AddProduct = ({
       setFormData(editProduct);
     }
   }, [editProduct]);
+
+  const allSubCategories = Object.values(subCategoryMap).flat();
 
   const handleRemoveImage = (indexToRemove) => {
     const updatedImages = formData.images.filter(
@@ -90,10 +129,20 @@ const AddProduct = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === "category") {
+      setFormData({
+        ...formData,
+        category: value,
+        subCategory: "",
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+
+
   };
 
   // add/update product
@@ -228,6 +277,7 @@ const AddProduct = ({
                     <InputFields
                       className={`flex flex-col gap-2`}
                       label="product name"
+                      name="product"
                       labelClass={`block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase`}
                       type="text" onChange={handleChange}
                       value={formData.product}
@@ -256,6 +306,9 @@ const AddProduct = ({
                       textareaClass={`w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none`}
                     />
 
+
+
+
                   </div>
                 </section>
 
@@ -268,79 +321,58 @@ const AddProduct = ({
 
 
                   <div className="grid grid-cols-2 gap-md mb-8">
-                    <DisabledField
+                    <InputFields
                       className={`flex flex-col`}
-                      label="product name"
+                      label="Category"
+                      name="category"
                       labelClass={`block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase`}
                       type="text" onChange={handleChange}
-                      value={formData.product}
+                      value={formData.category}
                       placeholder="Product Name"
                       inputClass={`w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none`}
                     />
+
+
                     <SelectField
-                      label="Status"
-                      name="status"
+                      label="Sub Category"
                       labelClass={`block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase`}
-                      value={formData.status}
+                      name="subCategory"
+                      value={formData.subCategory}
                       onChange={handleChange}
-                      options={[
-                        "Active",
-                        "Inactive",
-                        "Draft",
-                      ]}
+                      options={
+                        formData.category
+                          ? subCategoryMap[formData.category] || []
+                          : allSubCategories
+                      }
                       placeholder="Select Status"
                       className="flex flex-col"
                       selectClass="w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
                     />
+
+
+
+
+
+
                   </div>
                   <div>
                     <SectionLabel
                       label="AGE GROUP (SELECT ALL THAT APPLY)"
                     />
                     <div className="grid grid-cols-4 gap-4">
-                      <CheckboxField
-                        label="0-24m"
-                        checked={formData.age0to24m}
-                        onChange={(e) =>
-                          setFormDataNew({
-                            ...formData,
-                            age0to24m: e.target.checked,
-                          })
-                        }
-                      />
-
-                      <CheckboxField
-                        label="2-4y"
-                        checked={formData.age2to4y}
-                        onChange={(e) =>
-                          setFormDataNew({
-                            ...formData,
-                            age2to4y: e.target.checked,
-                          })
-                        }
-                      />
-
-                      <CheckboxField
-                        label="5-7y"
-                        checked={formData.age5to7y}
-                        onChange={(e) =>
-                          setFormDataNew({
-                            ...formData,
-                            age5to7y: e.target.checked,
-                          })
-                        }
-                      />
-
-                      <CheckboxField
-                        label="8-12y"
-                        checked={formData.age8to12y}
-                        onChange={(e) =>
-                          setFormDataNew({
-                            ...formData,
-                            age8to12y: e.target.checked,
-                          })
-                        }
-                      />
+                      {ageGroups.map((age) => (
+                        <CheckboxField
+                          key={age}
+                          label={age}
+                          checked={formData.ageRange?.value === age}
+                          onChange={() =>
+                            setFormData({
+                              ...formData,
+                              ageRange: { value: age },
+                            })
+                          }
+                        />
+                      ))}
                     </div>
                   </div>
                 </section>
@@ -349,43 +381,289 @@ const AddProduct = ({
 
             {/* STEP 2 */}
             {step === 2 && (
-              <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
-                <h3 className="font-h3 text-h3 text-on-surface mb-md">
-                  Pricing & Inventory
-                </h3>
+              <>
+                <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
+                  <FormHeading
+                    icon="payments"
+                    title="Pricing Details"
+                  />
 
-                <div className="grid grid-cols-2 gap-md">
-                  <div className="flex flex-col gap-2">
-                    <label className="font-label-md text-label-md text-on-surface">
-                      Price
-                    </label>
+                  <div className="grid grid-cols-2 gap-md mb-6">
+                    <div className="flex flex-col gap-2">
 
-                    <input
-                      type="number"
-                      name="price"
-                      value={formData.price}
-                      onChange={handleChange}
-                      placeholder="Price"
-                      className="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg"
-                    />
+
+
+
+                      <InputFields
+                        className={`flex flex-col`}
+                        label="Base Price"
+                        name="Base Price"
+                        labelClass={`block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase`}
+                        type="text" onChange={handleChange}
+                        value={formData.price}
+                        placeholder="Product Name"
+                        inputClass={`w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none`}
+                      />
+
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+
+
+                      <InputFields
+                        className="flex flex-col"
+                        label="Discount Price"
+                        name="discountPrice"
+                        labelClass="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase"
+                        type="text"
+                        onChange={handleChange}
+                        value={formData.discountPrice}
+                        placeholder="Discount Price"
+                        inputClass="w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                      />
+                    </div>
+
+
+
+                  </div>
+                  <SelectField
+                    label="TAX RATE"
+                    name="taxRate"
+                    labelClass="block font-label-caps text-label-caps text-on-surface-variant mb-2"
+                    value={formData.taxRate}
+                    onChange={handleChange}
+                    options={taxOptions}
+                    placeholder="Select Tax Rate"
+                    className="flex flex-col mb-8"
+                    selectClass="w-full bg-white border border-slate-200 rounded-lg p-3 text-body-base focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none"
+                  />
+
+
+                  <div className="bg-surface-container-low p-md rounded-lg border border-slate-100">
+                    <div className="flex justify-between items-center mb-md">
+                      <span className="text-label-caps font-label-caps text-on-surface-variant uppercase">Profit Margin Calculator</span>
+                      <span className="material-symbols-outlined text-xs text-slate-400 cursor-help">info</span>
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <div className="space-y-1">
+                        <p className="text-body-sm font-body-sm text-on-surface-variant">Estimated Profit</p>
+                        <p className="text-headline-md font-headline-md text-secondary" id="profit-val">$0.00</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-body-sm font-body-sm text-on-surface-variant">Margin (%)</p>
+                        <p className="text-title-sm font-title-sm text-primary" id="margin-val">0%</p>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <label className="font-label-md text-label-md text-on-surface">
-                      Stock Level
-                    </label>
 
-                    <input
-                      type="number"
-                      name="stockLevel"
-                      value={formData.stockLevel}
-                      onChange={handleChange}
-                      placeholder="Stock"
-                      className="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg"
-                    />
+
+                </section>
+
+                <section className="bg-white p-lg rounded-xl shadow-sm border border-slate-100">
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg">
+                        <span className="material-symbols-outlined text-primary">
+                          layers
+                        </span>
+                      </div>
+
+                      <h2 className="font-title-sm text-title-sm text-primary">
+                        Product Variations
+                      </h2>
+                    </div>
+
+                    <button className="flex items-center gap-1 text-primary text-sm font-semibold hover:underline">
+                      <span className="material-symbols-outlined text-sm">
+                        add
+                      </span>
+                      Add Variant Group
+                    </button>
                   </div>
-                </div>
-              </section>
+
+                  <div className="space-y-6">
+                    {/* Sizes */}
+                    <div className="p-4 bg-surface-bright rounded-lg border border-slate-100">
+                      <h4 className="text-body-base font-semibold text-primary mb-1">
+                        Sizes
+                      </h4>
+
+                      <p className="text-xs text-on-surface-variant mb-4">
+                        Select applicable sizes for the kids category.
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold shadow-sm">
+                          0-6m
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium hover:border-primary/50">
+                          6-12m
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold shadow-sm">
+                          1-2y
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          2-4y
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          4-6y
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border-dashed border-2 border-slate-200 bg-transparent text-slate-400">
+                          <span className="material-symbols-outlined">
+                            add
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Colors */}
+                    <div className="p-4 bg-surface-bright rounded-lg border border-slate-100">
+                      <h4 className="text-body-base font-semibold text-primary mb-1">
+                        Colors
+                      </h4>
+
+                      <p className="text-xs text-on-surface-variant mb-4">
+                        Add the available colors for this garment.
+                      </p>
+
+                      <div className="flex flex-wrap gap-6">
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="w-8 h-8 rounded-full bg-slate-900 ring-2 ring-offset-2 ring-primary cursor-pointer shadow-sm"></div>
+
+                          <span className="text-[10px] font-bold uppercase text-primary">
+                            Navy
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="w-8 h-8 rounded-full bg-white border border-slate-200 cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-slate-300"></div>
+
+                          <span className="text-[10px] font-bold uppercase text-on-surface-variant">
+                            White
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-1">
+                          <div className="w-8 h-8 rounded-full bg-pink-500 cursor-pointer hover:ring-2 hover:ring-offset-2 hover:ring-pink-300"></div>
+
+                          <span className="text-[10px] font-bold uppercase text-on-surface-variant">
+                            Rose
+                          </span>
+                        </div>
+
+                        <button className="w-8 h-8 flex items-center justify-center rounded-full border-dashed border-2 border-slate-200 text-slate-400">
+                          <span className="material-symbols-outlined text-sm">
+                            add
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Variant Table */}
+                    <div className="overflow-hidden border border-slate-100 rounded-lg">
+                      <table className="w-full text-left text-sm">
+                        <thead className="bg-slate-50 border-b border-slate-100 text-[10px] font-bold uppercase text-on-surface-variant tracking-wider">
+                          <tr>
+                            <th className="px-4 py-3">Variant</th>
+                            <th className="px-4 py-3">SKU</th>
+                            <th className="px-4 py-3 text-center">In Stock</th>
+                            <th className="px-4 py-3 text-right">
+                              Price Adjust.
+                            </th>
+                            <th className="px-4 py-3"></th>
+                          </tr>
+                        </thead>
+
+                        <tbody className="divide-y divide-slate-50">
+                          <tr className="hover:bg-slate-50 transition-colors">
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 rounded-full bg-slate-900"></div>
+
+                                <span className="font-medium">
+                                  Navy / 0-6m
+                                </span>
+                              </div>
+                            </td>
+
+                            <td className="px-4 py-4 font-mono text-[11px] text-slate-500">
+                              KID-TE-NV-06
+                            </td>
+
+                            <td className="px-4 py-4 text-center">
+                              <input
+                                className="w-12 text-center border border-slate-200 rounded p-1 text-xs"
+                                type="number"
+                                defaultValue={25}
+                              />
+                            </td>
+
+                            <td className="px-4 py-4 text-right">
+                              <span className="text-secondary font-mono text-[11px]">
+                                +$0.00
+                              </span>
+                            </td>
+
+                            <td className="px-4 py-4 text-right">
+                              <button className="material-symbols-outlined text-slate-400 hover:text-error transition-colors text-lg">
+                                delete
+                              </button>
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-slate-50 transition-colors">
+                            <td className="px-4 py-4">
+                              <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 rounded-full bg-slate-900"></div>
+
+                                <span className="font-medium">
+                                  Navy / 1-2y
+                                </span>
+                              </div>
+                            </td>
+
+                            <td className="px-4 py-4 font-mono text-[11px] text-slate-500">
+                              KID-TE-NV-12
+                            </td>
+
+                            <td className="px-4 py-4 text-center">
+                              <input
+                                className="w-12 text-center border border-slate-200 rounded p-1 text-xs"
+                                type="number"
+                                defaultValue={12}
+                              />
+
+                              <div className="mt-1">
+                                <span className="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[9px] font-bold uppercase tracking-tight">
+                                  Low Stock
+                                </span>
+                              </div>
+                            </td>
+
+                            <td className="px-4 py-4 text-right">
+                              <span className="text-secondary font-mono text-[11px]">
+                                +$2.00
+                              </span>
+                            </td>
+
+                            <td className="px-4 py-4 text-right">
+                              <button className="material-symbols-outlined text-slate-400 hover:text-error transition-colors text-lg">
+                                delete
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </section>
+              </>
             )}
 
             {/* STEP 3 */}
@@ -590,7 +868,7 @@ const AddProduct = ({
           </div>
 
           {/* right */}
-          <div className="lg:col-span-4 space-y-lg">
+          {/* <div className="lg:col-span-4 space-y-lg">
             <div className="rounded-xl overflow-hidden border border-outline-variant/30 ambient-shadow">
               <div className="flex  gap-3 overflow-auto">
                 {formData.images?.length > 0 ? (
@@ -623,6 +901,97 @@ const AddProduct = ({
                 </p>
               </div>
             </div>
+          </div> */}
+          <div className="col-span-4 space-y-gutter">
+            <section className="bg-white p-lg rounded-xl shadow-sm border border-slate-100">
+
+
+              <FormHeading
+                icon="label"
+                title="Organization"
+              />
+              <div className="space-y-6">
+
+                <div>
+                  <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">GENDER</label>
+
+                  <div className="flex flex-col gap-2">
+                    {genderOptions.map((gender) => (
+                      <RadioField
+                        key={gender.value}
+                        label={gender.label}
+                        labelClass="flex items-center gap-3 cursor-pointer"
+                        name="gender"
+                        radioClass="w-4 h-4 text-primary focus:ring-primary"
+                        value={gender.value}
+                        checked={formData.gender === gender.value}
+                        onChange={handleChange}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section className="bg-white p-lg mt-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-slate-50 rounded-lg">
+                    <span className="material-symbols-outlined text-primary">visibility</span>
+                  </div>
+                  <h2 className="font-title-sm text-title-sm text-primary">Visibility</h2>
+                </div>
+              </div>
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-slate-900">Publish Product</p>
+                  <p className="text-xs text-slate-500">Enable to make live on store</p>
+                </div>
+
+                <button className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none bg-primary-container" id="visibility-toggle" onclick="toggleSwitch(this)">
+                  <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                </button>
+              </div>
+
+
+
+
+
+
+              <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
+
+                <div className="flex gap-4">
+                  {step < 4 ? (
+                    <button
+                      onClick={() => setStep((prev) => prev + 1)}
+                      className="w-full py-4 px-6 bg-primary text-white rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-md cursor-pointer"
+                    >
+                      {step === 1
+                        ? "Next: Pricing"
+                        : "Next: Images"}
+
+                      <span className="material-symbols-outlined text-[18px]">
+                        arrow_forward
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSubmit}
+                      className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
+                    >
+                      {editProduct ? "Update Product" : "Add Product"}
+                    </button>
+                  )}
+                </div>
+
+
+
+
+                <button className="w-full py-4 px-6 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                  Save as Draft
+                </button>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -641,29 +1010,7 @@ const AddProduct = ({
           {step === 1 ? "Cancel" : "Back"}
         </button>
 
-        <div className="flex gap-4">
-          {step < 4 ? (
-            <button
-              onClick={() => setStep((prev) => prev + 1)}
-              className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
-            >
-              {step === 1
-                ? "Next: Pricing"
-                : "Next: Images"}
 
-              <span className="material-symbols-outlined text-[18px]">
-                arrow_forward
-              </span>
-            </button>
-          ) : (
-            <button
-              onClick={handleSubmit}
-              className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
-            >
-              {editProduct ? "Update Product" : "Add Product"}
-            </button>
-          )}
-        </div>
       </div>
     </div>
   );
