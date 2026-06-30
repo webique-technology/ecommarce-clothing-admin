@@ -1406,7 +1406,10 @@
 .p-3 {
     padding: 0.75rem;
 }
-
+.border-slate-50 {
+    --tw-border-opacity: 1;
+    border-color: rgb(248 250 252 / var(--tw-border-opacity, 1));
+}
 .bg-white {
     --tw-bg-opacity: 1;
     background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));

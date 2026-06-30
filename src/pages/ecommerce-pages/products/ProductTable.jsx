@@ -525,30 +525,30 @@ const ProductTable = ({
                                 </td>
                                 <td>
                                     {(() => {
-                                        const stock =
-                                            item.sizes.find(
-                                                (s) =>
-                                                    s.size ===
-                                                    (selectedSizes[item.id] ||
-                                                        item.sizes[0].size)
-                                            )?.stock || 0;
+                                        const selectedSize =
+                                            selectedSizes[item.id] || item.sizes[0].size;
 
-                                        const outOfStock = stock === 0;
-                                        const isLowStock = stock > 0 && stock < 5;
-                                        const availableStock = stock >= 5;
+                                        const sizeData = item.sizes.find(
+                                            (s) => s.size === selectedSize
+                                        );
+
+                                        if (!sizeData) return null;
+
+                                        const stock = sizeData.stock;
 
                                         return (
                                             <span
-                                                className={`badge px-2 py-1 ${outOfStock
-                                                    ? "bg-gray-100 text-gray-700"
-                                                    : isLowStock
-                                                        ? "bg-red-100 text-red-700"
-                                                        : "bg-green-100 text-green-700"
+                                                className={`badge px-2 py-1 ${stock === 0
+                                                        ? "bg-gray-100 text-gray-700"
+                                                        : stock < 5
+                                                            ? "bg-red-100 text-red-700"
+                                                            : "bg-green-100 text-green-700"
                                                     }`}
                                             >
-                                                {outOfStock
+                                                {sizeData.size} -{" "}
+                                                {stock === 0
                                                     ? `Out of Stock (${stock})`
-                                                    : isLowStock
+                                                    : stock < 5
                                                         ? `Low Stock (${stock})`
                                                         : `Available (${stock})`}
                                             </span>

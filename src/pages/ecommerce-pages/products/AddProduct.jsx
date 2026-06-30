@@ -70,7 +70,6 @@ const AddProduct = ({
   const genderOptions = [
     { label: "Boys", value: "boys" },
     { label: "Girls", value: "girls" },
-    { label: "Unisex", value: "Unisex" },
   ];
 
   const handleEdit = (product) => {
@@ -261,10 +260,11 @@ const AddProduct = ({
       <div className="flex-1 p-gutter max-w-6xl w-full mx-auto space-y-8 animate-in fade-in duration-500">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
           {/* left */}
-          <div className="lg:col-span-8 space-y-lg">
-            {/* STEP 1 */}
-            {step === 1 && (
-              <>
+
+          {/* STEP 1 */}
+          {step === 1 && (
+            <>
+              <div className="lg:col-span-8 space-y-lg">
                 <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
                   <FormHeading
                     icon="Description"
@@ -375,13 +375,81 @@ const AddProduct = ({
                       ))}
                     </div>
                   </div>
-                </section>
-              </>
-            )}
 
-            {/* STEP 2 */}
-            {step === 2 && (
-              <>
+
+                </section>
+              </div>
+
+              <div className="col-span-4 space-y-gutter">
+
+
+                <section className="bg-white p-lg rounded-xl shadow-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg">
+                        <span className="material-symbols-outlined text-primary">visibility</span>
+                      </div>
+                      <h2 className="font-title-sm text-title-sm text-primary">Visibility</h2>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">Publish Product</p>
+                      <p className="text-xs text-slate-500">Enable to make live on store</p>
+                    </div>
+
+                    <button className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none bg-primary-container" id="visibility-toggle" onclick="toggleSwitch(this)">
+                      <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                    </button>
+                  </div>
+
+
+
+
+
+
+                  <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
+
+                    <div className="flex gap-4">
+                      {step < 4 ? (
+                        <button
+                          onClick={() => setStep((prev) => prev + 1)}
+                          className="w-full py-4 px-6 bg-primary text-white rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-md cursor-pointer"
+                        >
+                          {step === 1
+                            ? "Next: Pricing"
+                            : "Next: Images"}
+
+                          <span className="material-symbols-outlined text-[18px]">
+                            arrow_forward
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleSubmit}
+                          className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
+                        >
+                          {editProduct ? "Update Product" : "Add Product"}
+                        </button>
+                      )}
+                    </div>
+
+
+
+
+                    <button className="w-full py-4 px-6 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                      Save as Draft
+                    </button>
+                  </div>
+                </section>
+              </div>
+            </>
+          )}
+
+          {/* STEP 2 */}
+          {step === 2 && (
+            <>
+              <div className="lg:col-span-8 space-y-lg">
                 <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
                   <FormHeading
                     icon="payments"
@@ -396,8 +464,8 @@ const AddProduct = ({
 
                       <InputFields
                         className={`flex flex-col`}
-                        label="Base Price"
-                        name="Base Price"
+                        label="Price"
+                        name="price"
                         labelClass={`block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase`}
                         type="text" onChange={handleChange}
                         value={formData.price}
@@ -512,6 +580,50 @@ const AddProduct = ({
 
                         <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
                           4-6y
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border-dashed border-2 border-slate-200 bg-transparent text-slate-400">
+                          <span className="material-symbols-outlined">
+                            add
+                          </span>
+                        </button>
+                      </div>
+
+                      <p className="text-xs text-on-surface-variant mt-6 mb-4">
+                        Select applicable sizes for the kids category.
+                      </p>
+
+                      <div className="flex flex-wrap gap-2">
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold shadow-sm">
+                          L
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium hover:border-primary/50">
+                          XL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium hover:border-primary/50">
+                          XXL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          3XL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          4XL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          5XL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          6XL
+                        </button>
+
+                        <button className="w-12 h-10 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-on-surface-variant text-xs font-medium">
+                          7XL
                         </button>
 
                         <button className="w-12 h-10 flex items-center justify-center rounded-lg border-dashed border-2 border-slate-200 bg-transparent text-slate-400">
@@ -663,11 +775,135 @@ const AddProduct = ({
                     </div>
                   </div>
                 </section>
-              </>
-            )}
+              </div>
+              <div className="col-span-4 space-y-gutter">
 
-            {/* STEP 3 */}
-            {step === 3 && (
+
+
+ <section className="bg-white p-lg rounded-xl shadow-sm border border-slate-100">
+
+
+              <FormHeading
+                icon="label"
+                title="Organizationnnn"
+              />
+              <div className="space-y-6">
+
+                <div>
+                  <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">GENDER</label>
+
+                  <div className="flex flex-col gap-2">
+                    {genderOptions.map((gender) => (
+                      <RadioField
+                        key={gender.value}
+                        label={gender.label}
+                        labelClass="flex items-center gap-3 cursor-pointer"
+                        name="gender"
+                        radioClass="w-4 h-4 text-primary focus:ring-primary"
+                        value={gender.value}
+                        checked={formData.gender === gender.value}
+                        onChange={handleChange}
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-3 mt-4 mb-6">
+                    <div className="p-2 bg-slate-50 rounded-lg">
+                      <span className="material-symbols-outlined text-primary">inventory</span>
+                    </div>
+                    <h2 className="font-title-sm text-title-sm text-primary">Inventory</h2>
+                  </div>
+                  <div className="space-y-6">
+                    <div>
+                      <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">SKU (Stock Keeping Unit)</label>
+                      <input className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm" placeholder="e.g. KID-TE-BL-01" type="text" />
+                    </div>
+              
+                    <hr className="border-slate-50" />
+                    <div>
+                      <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Stock Quantity</label>
+                      <input className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary outline-none text-sm" placeholder="0" type="number" />
+                    </div>
+                    <div>
+                      <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2 uppercase">Low Stock Alert</label>
+                      <div className="flex items-center gap-3">
+                        <input className="w-20 px-3 py-2 border border-slate-200 rounded-lg text-sm" type="number" value="5" />
+                        <span className="text-xs text-slate-500">units remaining</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+                <section className="bg-white p-lg mt-6 rounded-xl shadow-sm border border-slate-100">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-slate-50 rounded-lg">
+                        <span className="material-symbols-outlined text-primary">visibility</span>
+                      </div>
+                      <h2 className="font-title-sm text-title-sm text-primary">Visibility</h2>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-bold text-slate-900">Publish Product</p>
+                      <p className="text-xs text-slate-500">Enable to make live on store</p>
+                    </div>
+
+                    <button className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none bg-primary-container" id="visibility-toggle" onclick="toggleSwitch(this)">
+                      <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                    </button>
+                  </div>
+
+
+
+
+
+
+                  <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
+
+                    
+
+                    <div className="flex gap-4">
+                      {step < 4 ? (
+                        <button
+                          onClick={() => setStep((prev) => prev + 1)}
+                          className="w-full py-4 px-6 bg-primary text-white rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-md cursor-pointer"
+                        >
+                          {step === 1
+                            ? "Next: Pricing"
+                            : "Next: Images"}
+
+                          <span className="material-symbols-outlined text-[18px]">
+                            arrow_forward
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          onClick={handleSubmit}
+                          className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
+                        >
+                          {editProduct ? "Update Product" : "Add Product"}
+                        </button>
+                      )}
+                    </div>
+
+
+
+
+                    <button className="w-full py-4 px-6 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                      Save as Draft
+                    </button>
+                  </div>
+                </section>
+              </div>
+            </>
+          )}
+
+          {/* STEP 3 */}
+          {step === 3 && (
+            <>
+            <div className="lg:col-span-8 space-y-lg">
               <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
                 <h3 className="font-h3 text-h3 text-on-surface mb-md">
                   Images & Media
@@ -765,8 +1001,76 @@ const AddProduct = ({
                   </div>
                 </div>
               </section>
-            )}
-            {step === 4 && (
+            </div>
+
+            <div className="col-span-4 space-y-gutter">
+           
+
+            <section className="bg-white p-lg mt-6 rounded-xl shadow-sm border border-slate-100">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-slate-50 rounded-lg">
+                    <span className="material-symbols-outlined text-primary">visibility</span>
+                  </div>
+                  <h2 className="font-title-sm text-title-sm text-primary">Visibility</h2>
+                </div>
+              </div>
+              <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-bold text-slate-900">Publish Product</p>
+                  <p className="text-xs text-slate-500">Enable to make live on store</p>
+                </div>
+
+                <button className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none bg-primary-container" id="visibility-toggle" onclick="toggleSwitch(this)">
+                  <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-6"></span>
+                </button>
+              </div>
+
+
+
+
+
+
+              <div className="mt-6 pt-6 border-t border-slate-100 flex flex-col gap-3">
+
+                <div className="flex gap-4">
+                  {step < 4 ? (
+                    <button
+                      onClick={() => setStep((prev) => prev + 1)}
+                      className="w-full py-4 px-6 bg-primary text-white rounded-lg font-bold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 shadow-md cursor-pointer"
+                    >
+                      {step === 4
+                        ? "Next: Images"
+                        : "Next: Images"}
+
+                      <span className="material-symbols-outlined text-[18px]">
+                        arrow_forward
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleSubmit}
+                      className="px-8 py-3 bg-primary text-on-primary font-label-md rounded-lg ambient-shadow-mid flex items-center gap-2"
+                    >
+                      {editProduct ? "Update Product" : "Add Product"}
+                    </button>
+                  )}
+                </div>
+
+
+
+
+                <button className="w-full py-4 px-6 bg-white border border-slate-200 text-slate-600 rounded-lg font-bold text-sm hover:bg-slate-50 transition-colors">
+                  Save as Draft
+                </button>
+              </div>
+            </section>
+          </div>
+            </>
+          )}
+          {step === 4 && (
+            <>
+            <div className="lg:col-span-8 space-y-lg">
               <section className="bg-white rounded-xl ambient-shadow p-lg border border-outline-variant/30">
                 <h3 className="font-h3 text-h3 text-on-surface mb-md">
                   Images & Media 4
@@ -864,74 +1168,9 @@ const AddProduct = ({
                   </div>
                 </div>
               </section>
-            )}
-          </div>
-
-          {/* right */}
-          {/* <div className="lg:col-span-4 space-y-lg">
-            <div className="rounded-xl overflow-hidden border border-outline-variant/30 ambient-shadow">
-              <div className="flex  gap-3 overflow-auto">
-                {formData.images?.length > 0 ? (
-                  <img
-                    src={formData.images[selectedImage]}
-                    alt="preview"
-                    className="w-full  object-cover h-auto"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-on-surface-variant">
-                    <FiImage size={60} />
-                    <p>No Image Selected</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="p-md bg-white">
-                <p className="text-[10px] uppercase tracking-wider text-outline font-bold mb-1">
-                  Preview Thumbnail
-                </p>
-
-                <p className="text-body-sm text-on-surface-variant">
-                  <span className="font-bold">Name : </span>{formData.product || "Product Preview"}
-                </p>
-                <p className="text-body-sm text-on-surface-variant">
-                  <span className="font-bold">Description : </span>{formData.description || "Product Description"}
-                </p>
-                <p className="text-body-sm text-on-surface-variant">
-                  <span className="font-bold">Price : </span> <span className="font-medium">₹</span>{formData.price || "Price"}
-                </p>
-              </div>
             </div>
-          </div> */}
-          <div className="col-span-4 space-y-gutter">
-            <section className="bg-white p-lg rounded-xl shadow-sm border border-slate-100">
-
-
-              <FormHeading
-                icon="label"
-                title="Organization"
-              />
-              <div className="space-y-6">
-
-                <div>
-                  <label className="block font-label-caps text-label-caps text-on-surface-variant mb-2">GENDER</label>
-
-                  <div className="flex flex-col gap-2">
-                    {genderOptions.map((gender) => (
-                      <RadioField
-                        key={gender.value}
-                        label={gender.label}
-                        labelClass="flex items-center gap-3 cursor-pointer"
-                        name="gender"
-                        radioClass="w-4 h-4 text-primary focus:ring-primary"
-                        value={gender.value}
-                        checked={formData.gender === gender.value}
-                        onChange={handleChange}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
+            <div className="col-span-4 space-y-gutter">
+           
 
             <section className="bg-white p-lg mt-6 rounded-xl shadow-sm border border-slate-100">
               <div className="flex items-center justify-between mb-6">
@@ -993,7 +1232,54 @@ const AddProduct = ({
               </div>
             </section>
           </div>
+            </>
+          )}
         </div>
+
+        {/* right */}
+        {/* <div className="lg:col-span-4 space-y-lg">
+            <div className="rounded-xl overflow-hidden border border-outline-variant/30 ambient-shadow">
+              <div className="flex  gap-3 overflow-auto">
+                {formData.images?.length > 0 ? (
+                  <img
+                    src={formData.images[selectedImage]}
+                    alt="preview"
+                    className="w-full  object-cover h-auto"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-on-surface-variant">
+                    <FiImage size={60} />
+                    <p>No Image Selected</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="p-md bg-white">
+                <p className="text-[10px] uppercase tracking-wider text-outline font-bold mb-1">
+                  Preview Thumbnail
+                </p>
+
+                <p className="text-body-sm text-on-surface-variant">
+                  <span className="font-bold">Name : </span>{formData.product || "Product Preview"}
+                </p>
+                <p className="text-body-sm text-on-surface-variant">
+                  <span className="font-bold">Description : </span>{formData.description || "Product Description"}
+                </p>
+                <p className="text-body-sm text-on-surface-variant">
+                  <span className="font-bold">Price : </span> <span className="font-medium">₹</span>{formData.price || "Price"}
+                </p>
+              </div>
+            </div>
+          </div> */}
+
+
+
+
+
+
+
+
+
       </div>
       {/* footer buttons */}
       <div className="mt-2xl flex items-center justify-between pt-lg border-t border-outline-variant/30">
